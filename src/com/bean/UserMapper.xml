@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bean.UserMapper">
+    <!-- 根据user_id查询一个用户 -->
+    <select id="selectUserByUserId" parameterType="String" resultType="com.bean.User">
+        select * from user where user_id = #{user_id}
+    </select>
+    <!-- 根据email查询一个用户 -->
+    <select id="selectUserByEmail" parameterType="String" resultType="com.bean.User">
+        select * from user where email = #{email}
+    </select>
+    <!-- 添加一个用户-->
+    <insert id="addUser" parameterType="com.bean.User">
+        insert into user (user_id,email,password,salt)
+        values(#{user_id},#{email},#{password},#{salt})
+    </insert>
+    <!--修改一个用户 -->
+    <update id="updateUser" parameterType="com.bean.User">
+        update user set password = #{password} where user_id = #{user_id}
+    </update>
+    <!-- 删除一个用户 -->
+    <delete id="deleteUser" parameterType="String">
+        delete from user where user_id = #{user_id}
+    </delete>
+    <select id="totalUser" resultType="long">
+        select count(*) from user
+    </select>
+</mapper>
