@@ -42,9 +42,7 @@ public class LogonServlet extends HttpServlet {
         
         //获取客户端传来的参数
 		String email = request.getParameter("email");
-		
-		//String salt = "1235416541451542145145152152";
-		
+
 		
 		String salt = Encryption.getSalt();
 		
@@ -58,7 +56,7 @@ public class LogonServlet extends HttpServlet {
 		
 		//创建数据库操作类对象，并查询此邮箱是否被注册过
 		MyBatiser myBatiser = new MyBatiser();
-		User user = myBatiser.selectByEmail(email);
+		User user = myBatiser.selectUserByEmail(email);
 		//判定处理结果
 		if(user == null) {//邮箱未被注册
 			//新建User对象

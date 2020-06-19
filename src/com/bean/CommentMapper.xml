@@ -4,16 +4,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bean.CommentMapper">
     <!-- 根据news_id查询评论信息 -->
-    <select id="selectCommentByUrl" parameterType="String" resultType="com.bean.Comment">
+    <select id="selectCommentByNews_id" parameterType="String" resultType="com.bean.Comment">
         select * from comment_news where news_id = #{news_id}
+    </select>
+     <!-- 根据id查询新闻评论信息 -->
+    <select id="selectCommentById" parameterType="int" resultType="com.bean.Comment">
+        select * from comment_news where id = #{id}
     </select>
     <!-- 添加一条评论-->
     <insert id="addNewsComment" parameterType="com.bean.Comment">
         insert into comment_news (news_id,user_id,create_time,content)
         values(#{news_id},#{user_id},#{create_time},#{content})
     </insert>
-    <!-- 根据ure,user_id,create_time删除一条评论 -->
-    <delete id="deleteNewsComment" parameterType="com.bean.Comment">
-        delete from comment_news where news_id = #{news_id} and user_id = #{user_id} and create_time = #{create_time}
+    <!-- 根据id删除一条评论 -->
+    <delete id="deleteNewsComment" parameterType="int">
+        delete from comment_news where id= #{id} 
     </delete>
 </mapper>

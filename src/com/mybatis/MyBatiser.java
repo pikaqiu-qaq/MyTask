@@ -52,7 +52,7 @@ public class MyBatiser {
 	 * 添加一个用户
 	 */
     public int addUser(User user) {
-    	if(selectByEmail(user.getEmail())!=null)return ADD_EXIST;
+    	if(selectUserByEmail(user.getEmail())!=null)return ADD_EXIST;
     	try {
     		userMapper.addUser(user);
     		session.commit();
@@ -67,7 +67,7 @@ public class MyBatiser {
      * 删除指定user_id的用户
      */
     public int deleteUser(User user) {
-    	if(this.selectByUser_id(user.getUser_id())==null)return NOT_FOUND;
+    	if(this.selectUserByUser_id(user.getUser_id())==null)return NOT_FOUND;
     	try {
            userMapper.deleteUser(user);
             session.commit();
@@ -83,7 +83,7 @@ public class MyBatiser {
      * 修改指定用户
      */
     public int updateUser(User user) {
-    	if(this.selectByUser_id(user.getUser_id())==null)return NOT_FOUND;
+    	if(this.selectUserByUser_id(user.getUser_id())==null)return NOT_FOUND;
     	try {
     		userMapper.updateUser(user);
             session.commit();
@@ -98,14 +98,14 @@ public class MyBatiser {
     /*
      * 通过user_id查询用户,若没有此用户则返回null
      */
-    public User selectByUser_id(String user_id) {
+    public User selectUserByUser_id(String user_id) {
 		return userMapper.selectUserByUserId(user_id);
     }
     
     /*
      * 通过email查询用户,若没有此用户则返回null
      */
-    public User selectByEmail(String email) {
+    public User selectUserByEmail(String email) {
     	return userMapper.selectUserByEmail(email);
     }
     
@@ -123,12 +123,37 @@ public class MyBatiser {
     	}
     }
     
+    /*
+     * return Comment by id
+     */
+    public Comment selectCommentById(int id)
+    {
+    	return	commentMapper.selectCommentById(id);  	
+    }
     
     /*
-     * 通过url查询Comment，返回List<Comment>
+     * 通过News_id查询Comment，返回List<Comment>
      */
-    public List<Comment> selectCommentByUrl(String url){
-    	return commentMapper.selectCommentByUrl(url);
+    public List<Comment> selectCommentByNews_id(String news_id){
+    	return commentMapper.selectCommentByNews_id(news_id);
     }
+    
+    /*
+     * 删除指定id新闻评论
+     */
+    public boolean deleteNewsComment(int id)
+    {
+    	if(this.selectCommentById(id)==null)return false;
+    	try {
+            commentMapper.deleteNewsComment(id);
+            session.commit();
+            return true;
+        } catch (Exception e) {
+            session.rollback();
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
     
 }

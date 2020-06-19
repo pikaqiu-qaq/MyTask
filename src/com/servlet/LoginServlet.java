@@ -42,9 +42,9 @@ public class LoginServlet extends HttpServlet {
 		
 		//创建数据库操作类对象，并查询指定user_id的用户
 		MyBatiser myBatiser = new MyBatiser();
-		User user = myBatiser.selectByUser_id(user_id);
+		User user = myBatiser.selectUserByUser_id(user_id);
 		if(user==null) {
-			user = myBatiser.selectByEmail(user_id);
+			user = myBatiser.selectUserByEmail(user_id);
 		}
 		myBatiser.closeSqlSession();
 		

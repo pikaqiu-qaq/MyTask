@@ -45,7 +45,7 @@ public class GetCommentsServlet extends HttpServlet {
 		MyBatiser myBatiser = new MyBatiser();
 		
 
-		List<Comment> comments = myBatiser.selectCommentByUrl(news_id);
+		List<Comment> comments = myBatiser.selectCommentByNews_id(news_id);
 		if(comments==null)
 			status=401;
 		else
