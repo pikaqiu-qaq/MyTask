@@ -42,8 +42,9 @@ public class CommentServlet extends HttpServlet {
 	}
 
 	/**
+	 * 请求头：包含携带sessionid的cookie
 	 * 处理功能：接收客户端的评论信息，存入数据库
-	 * 请求参数：news_id(String),user_id(String),content(String)
+	 * 请求参数：news_id(String),content(String)
 	 * 返回参数：status(int)
 	 * 状态码说明： 401---->用户没有权限进行此操作
 	 *             200---->成功将客户端传来的评论信息添加到数据库        
@@ -62,6 +63,7 @@ public class CommentServlet extends HttpServlet {
 	}
 
 	/**
+	 * 请求头：包含携带sessionid的cookie
 	 * 处理功能：接收客户端传来的评论id，从数据库中删除指定id的评论
 	 * 请求参数：id(long)
 	 * 返回参数：status(int)
@@ -123,7 +125,7 @@ public class CommentServlet extends HttpServlet {
 						else {
 							User user = JSON.parseObject(json,User.class);
 							String user_id = user.getUser_id();
-							if(user_id.equals(request.getParameter("user_id")))return true;
+							if(user_id != null)return true;
 						}
 					}
 				}
@@ -209,10 +211,24 @@ public class CommentServlet extends HttpServlet {
         
         //获取请求参数
         String news_id=request.getParameter("news_id");
-        String user_id=request.getParameter("user_id");
         String content=request.getParameter("content");
+        
+        //获取当前时间
         long creat_time = System.currentTimeMillis()/1000L;
         
+        //获取session里的user_id
+        Cookie[] cookies = request.getCookies();
+        String sessionid = null;
+        for(Cookie c:cookies) {
+        	if(c.getName().contentEquals("JSESSIONID")) {
+        		sessionid = c.getValue();
+        	}
+        }
+        HttpSession session = MySessionContext.getSession(sessionid);
+        String json1 = (String)session.getAttribute("userMemory"); 
+        User user = JSON.parseObject(json1,User.class);
+		String user_id = user.getUser_id();
+		
         //状态码
         int status;
         
@@ -242,8 +258,8 @@ public class CommentServlet extends HttpServlet {
   		//返回响应信息
   		JSONObject jsonObject = new JSONObject();
   		jsonObject.put("status", status);
-  		String json = jsonObject.toJSONString();
-  		response.getWriter().write(json);        		
+  		String json2 = jsonObject.toJSONString();
+  		response.getWriter().write(json2);        		
 	}
 	
 	
