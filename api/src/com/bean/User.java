@@ -1,5 +1,5 @@
 package com.bean;
-
+ 
 public class User {
 	private long id;//对应数据库主键
 	private String user_id;//用户的id（类似于QQ号）

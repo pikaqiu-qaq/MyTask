@@ -4,7 +4,6 @@ import java.security.MessageDigest;
 import java.util.Random;
 
 public class Encryption {
-
 	
 	private static String hex(byte[] arr) {
 	     StringBuffer sb = new StringBuffer();

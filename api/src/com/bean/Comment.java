@@ -1,5 +1,5 @@
 package com.bean;
-
+ 
 public class Comment {
 	private long id;//评论的id
 	private String news_id;//所属资讯的id

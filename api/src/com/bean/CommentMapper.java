@@ -1,5 +1,5 @@
 package com.bean;
-
+ 
 import java.util.List;
 
 public interface CommentMapper {

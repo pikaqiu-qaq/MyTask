@@ -3,7 +3,7 @@ package com.util;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import com.mybatis.MyBatiser;
-
+ 
 public class IdFactory {
 		
 		//Éú³ÉuserId

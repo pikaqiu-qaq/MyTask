@@ -1,5 +1,5 @@
 package com.bean;
-
+ 
 public interface UserMapper {
 	User selectUserByUser_id(String user_id);
 	User selectUserByEmail(String email);
