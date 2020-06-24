@@ -47,7 +47,7 @@ public class RegisterServlet extends HttpServlet {
 		//响应状态码
 		Integer status;
 				
-		//生成的account
+		//生成的user_id
 	    String user_id = null;
 		
 		//创建数据库操作类对象，并查询此邮箱是否被注册过
@@ -57,14 +57,20 @@ public class RegisterServlet extends HttpServlet {
 		if(user == null) {//邮箱未被注册
 			//新建User对象
 			user = new User();
+			
 			//生成account
 			user_id = IdFactory.creatUserId();
+			
+			//生成默认的头像url
+			String avatar_url = "http://localhost:8080/avatar/default.jpg";
+			
+			//向User对象写入
 			user.setUser_id(user_id);
-			//写入email和password,salt
 			user.setEmail(email);
 			user.setPassword(password);
 			user.setSalt(salt);
 			user.setUser_name(user_name);
+			user.setAvatar_url(avatar_url);
 			
 			//尝试向数据库添加用户
 			int result = myBatiser.addUser(user);
