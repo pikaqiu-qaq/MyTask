@@ -5,8 +5,7 @@ import java.util.Random;
 
 public class Encryption {
 	
-	private static String hex(byte[] arr) 
-	{
+	private static String hex(byte[] arr) {
 	     StringBuffer sb = new StringBuffer();
 	     for (int i = 0; i < arr.length; ++i) {
 		     sb.append(Integer.toHexString((arr[i] & 0xFF) | 0x100).substring(1, 3));
@@ -14,8 +13,7 @@ public class Encryption {
 	     return sb.toString();
     }
    
-   private static String md5Hex(String str) 
-    {
+   private static String md5Hex(String str) {
        try {
            MessageDigest md = MessageDigest.getInstance("MD5");
            byte[] digest = md.digest(str.getBytes());
@@ -39,7 +37,7 @@ public class Encryption {
                 sBuilder.append("0");
             }
         }
-        // �������յļ�����
+
         String salt = sBuilder.toString();
         return salt;
     }

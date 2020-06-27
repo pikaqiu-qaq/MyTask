@@ -2,10 +2,8 @@ package com.util;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import com.bean.User;
 import com.mybatis.MyBatiser;
-
+ 
 public class IdFactory {
 		
 		//生成userId
@@ -16,13 +14,13 @@ public class IdFactory {
 			
 			//或去数据库操作对象并获取用户总数
 			MyBatiser myBatiser = new MyBatiser();
-			long total = myBatiser.totalUser();
+			long total = myBatiser.totalUser(); //获取总用户数
 			myBatiser.closeSqlSession();
 			
 			//处理生成user_id
 			String second = datetime.substring(4, 6);
 			String hour_min = datetime.substring(0,4);
-			String user_id0 = Integer.toString((Integer.parseInt(second)%10+1))+hour_min+reverse(Long.toString(total));
+			String user_id0 = Integer.toString((Integer.parseInt(second)%10+1))+hour_min+reverse(Long.toString(1234+total));
 			return trans(user_id0);
 		}
 		

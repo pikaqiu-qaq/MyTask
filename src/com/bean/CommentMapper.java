@@ -1,12 +1,11 @@
 package com.bean;
-
+ 
 import java.util.List;
 
 public interface CommentMapper {
+	List<Comment> selectCommentByNews_id(String url);
+	void addComment(Comment comment);
+	void deleteCommentById(long id);
+	Comment selectCommentById(long id);
 
-	List<Comment> selectCommentByNews_id(String news_id);
-	Comment selectCommentById(int id);
-	void addNewsComment(Comment comment);
-	void deleteNewsComment(int id);
-    
 }

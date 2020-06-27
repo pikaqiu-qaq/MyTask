@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>管理员 | 数据表格</title>
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="css/all.min.css">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="css/responsive.bootstrap4.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="css/adminlte.min.css">
+</head>
+
+<body class="hold-transition sidebar-mini" onload="getData()">
+    <div class="wrapper">
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper" style="margin-left: 0">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>数据表格</h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="#">首页</a></li>
+                                <li class="breadcrumb-item active">数据表格</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">全部用户数据表格</h3>
+                                </div>
+                                <!-- /.card-header -->
+                                <div class="card-body">
+                                    <table id="example1" class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>user_id</th>
+                                                <th>email</th>
+                                                <th>user_name</th>
+                                                <th>avatar_url</th>
+                                                <th>register_time</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <footer class="main-footer">
+            <div class="float-right d-none d-sm-block">
+                <b>Version</b> 3.1.0-pre
+            </div>
+            <strong>Copyright &copy; 2014-2020 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
+        </footer>
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar control-sidebar-dark">
+            <!-- Control sidebar content goes here -->
+        </aside>
+        <!-- /.control-sidebar -->
+    </div>
+    <!-- ./wrapper -->
+
+    <!-- jQuery -->
+    <script src="js/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <!-- DataTables -->
+    <script src="js/jquery.dataTables.min.js"></script>
+    <script src="js/dataTables.bootstrap4.min.js"></script>
+    <script src="js/dataTables.responsive.min.js"></script>
+    <script src="js/responsive.bootstrap4.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="js/adminlte.min.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="js/demo.js"></script>
+    <!-- page script -->
+    <script>
+        $(function() {
+            $("#example1").DataTable({
+                "responsive": true,
+                "autoWidth": false,
+            });
+            $('#example2').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
+    </script>
+    <script type="text/javascript">
+    function getData() {  
+        $.ajax({
+            type:"get",  
+            url:"http://localhost:8080/api/user",
+            data: {"rn": Math.floor(Math.random() * 100 + 1) },
+            success:function(users) {
+            	
+            		
+            	
+            	for(var i=0;i<getJsonLength(users);i++){
+            		
+            		var user_id = users[i]["user_id"];
+               	    var email = users[i]["email"];
+               	    var user_name = users[i]["user_name"];
+               	    var avatar_url = users[i]["avatar_url"];
+               	    var register_time = "2020/6/25";
+               	    var mytable = document.getElementById("example1");
+        	    	var mytr=mytable.insertRow();
+        	    	var mytd1=document.createElement("td");
+        	    	var mytd2=document.createElement("td");
+        	    	var mytd3=document.createElement("td");
+        	    	var mytd4=document.createElement("td");
+        	    	var mytd5=document.createElement("td");
+        	    	mytd1.innerText=user_id;
+        	    	mytd2.innerText=email;
+        	    	mytd3.innerText=user_name;
+        	    	mytd4.innerText=avatar_url;
+        	    	mytd5.innerText=register_time;
+        	    	mytr.appendChild(mytd1);
+        	    	mytr.appendChild(mytd2);
+        	    	mytr.appendChild(mytd3);
+        	    	mytr.appendChild(mytd4);
+        	    	mytr.appendChild(mytd5);
+        	    	
+            	}
+            	
+            }  
+        });
+    }
+    function getJsonLength(jsonData){
+        var jsonLength = 0;
+        for(var item in jsonData){
+           jsonLength++;
+        }
+        return jsonLength;
+    }  
+    </script>
+</body>
+</html>

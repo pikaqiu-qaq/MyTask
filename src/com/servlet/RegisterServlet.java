@@ -1,9 +1,6 @@
 package com.servlet;
-
+ 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,41 +14,40 @@ import com.util.Encryption;
 import com.util.IdFactory;
 
 /**
- * 处理注册请求的Servlet
+ * Servlet implementation class RegisterServlet
  */
-@SuppressWarnings("serial")
-@WebServlet("/LogonServlet")
-public class LogonServlet extends HttpServlet {
-	
-	
-	
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public LogonServlet() {
+@WebServlet("/v1/register")
+public class RegisterServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    public RegisterServlet() {
         super();
     }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * 处理功能：处理客户端的用户注册请求
+	 * 请求参数：email(String),password(String),user_name(String,非必须，默认为“anonymous_user”)
+	 * 返回参数：status(int)，user_id(String,若注册失败则为null)
+	 * 状态码说明： 201---->注册成功
+	 *             404---->注册失败，邮箱已被注册
+	 *             500---->注册失败，服务器出错
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//设置编码
 		response.setCharacterEncoding("utf-8");
         request.setCharacterEncoding("utf-8");
         
         //获取客户端传来的参数
 		String email = request.getParameter("email");
-
-		
+        String user_name = request.getParameter("user_name");
+        if(user_name == null)user_name="anonymous_user";
 		String salt = Encryption.getSalt();
-		
 		String password = Encryption.encrypt(request.getParameter("password"), salt);
 		
 		//响应状态码
 		Integer status;
 				
-		//生成的account
+		//生成的user_id
 	    String user_id = null;
 		
 		//创建数据库操作类对象，并查询此邮箱是否被注册过
@@ -61,17 +57,24 @@ public class LogonServlet extends HttpServlet {
 		if(user == null) {//邮箱未被注册
 			//新建User对象
 			user = new User();
+			
 			//生成account
 			user_id = IdFactory.creatUserId();
+			
+			//生成默认的头像url
+			String avatar_url = "http://localhost:8080/avatar/default.jpg";
+			
+			//向User对象写入
 			user.setUser_id(user_id);
-			//写入email和password,salt
 			user.setEmail(email);
 			user.setPassword(password);
 			user.setSalt(salt);
+			user.setUser_name(user_name);
+			user.setAvatar_url(avatar_url);
 			
 			//尝试向数据库添加用户
 			int result = myBatiser.addUser(user);
-			if(result == MyBatiser.ADD_SUCCESS) {//注册成功
+			if(result == MyBatiser.SUCCESS) {//注册成功
 				status = 201;
 			}
 			else {//注册失败，服务器出错
@@ -93,12 +96,4 @@ public class LogonServlet extends HttpServlet {
 		String json = jsonObject.toJSONString();
 		response.getWriter().write(json);
 	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
-	}
-
 }

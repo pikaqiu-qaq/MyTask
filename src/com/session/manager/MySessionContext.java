@@ -1,12 +1,12 @@
 package com.session.manager;
-
+ 
 import java.util.HashMap;
 
 import javax.servlet.http.HttpSession;
 
 public class MySessionContext {
 	 private static MySessionContext instance;  
-     private HashMap<String,HttpSession> sessionMap;  
+     public static HashMap<String,HttpSession> sessionMap;  
    
      private MySessionContext() {  
          sessionMap = new HashMap<String,HttpSession>();  
@@ -31,7 +31,7 @@ public class MySessionContext {
          }  
      }  
    
-     public synchronized HttpSession getSession(String sessionID) {  
+     public static HttpSession getSession(String sessionID) {  
          if (sessionID == null) {  
              return null;  
          }  
