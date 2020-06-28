@@ -16,5 +16,9 @@ public interface UserMapper {
 	long totalUser();
 	
 	List<User> selectAllUsers();
+	
+	void banUserByUser_id(String user_id);
+	
+	void unbanUserByUser_id(String user_id);
 
 }

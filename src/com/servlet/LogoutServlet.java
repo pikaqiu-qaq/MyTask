@@ -47,6 +47,7 @@ public class LogoutServlet extends HttpServlet {
 			jsonObject.put("status", 500);
 		}
 		else {
+			System.out.println(sessionid);
 			HttpSession session = MySessionContext.getSession(sessionid);
 			session.invalidate();
 			jsonObject.put("status", 200);

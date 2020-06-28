@@ -18,5 +18,6 @@
 	<mappers>
 		<mapper resource="com/bean/UserMapper.xml" />
 		<mapper resource="com/bean/CommentMapper.xml" />
+		<mapper resource="com/bean/Comment_animeMapper.xml" />
 	</mappers>
 </configuration>

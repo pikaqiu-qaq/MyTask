@@ -6,6 +6,8 @@ import org.apache.ibatis.session.SqlSession;
 
 import com.bean.Comment;
 import com.bean.CommentMapper;
+import com.bean.Comment_anime;
+import com.bean.Comment_animeMapper;
 import com.bean.User;
 import com.bean.UserMapper;
 
@@ -22,12 +24,14 @@ public class MyBatiser {
 	private SqlSession session;
 	private UserMapper userMapper;
 	private CommentMapper commentMapper;
+	private Comment_animeMapper comment_animeMapper;
 
 	public MyBatiser() {
 		MyBatisInit.init();
 		this.session = MyBatisInit.getSession();
 		this.userMapper = session.getMapper(UserMapper.class);
 		this.commentMapper = session.getMapper(CommentMapper.class);
+		this.comment_animeMapper = session.getMapper(Comment_animeMapper.class);
 	}
 
 	/*
@@ -116,6 +120,32 @@ public class MyBatiser {
 	}
 	
 	/*
+	 * 冻结用户
+	 */
+	public boolean banUserByUser_id(String user_id) {
+		try {
+			userMapper.banUserByUser_id(user_id);
+			return true;
+		}catch(Exception e) {
+			return false;
+		}
+		
+	}
+	
+	/*
+	 * 解冻
+	 */
+	public boolean unbanUserByUser_id(String user_id) {
+		try {
+			userMapper.unbanUserByUser_id(user_id);
+			return true;
+		}catch(Exception e) {
+			return false;
+		}
+		
+	}
+	
+	/*
 	 * 向comment数据表增加一条评论
 	 */
 	public boolean addComment(Comment comment) {
@@ -157,4 +187,47 @@ public class MyBatiser {
 		return commentMapper.selectCommentById(id);
 	}
 
+	
+	
+	/*
+	 * 向comment_anime数据表增加一条评论
+	 */
+	public boolean addComment_anime(Comment_anime comment_anime) {
+		try {
+			comment_animeMapper.addComment_anime(comment_anime);
+			session.commit();
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	/*
+	 * 根据id删除番剧评论
+	 */
+	public boolean deleteComment_animeById(long id) {
+		try {
+			comment_animeMapper.deleteComment_animeById(id);
+			session.commit();
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	/*
+	 * 通过anime_id查询Comment_anime，返回List<Comment_anime>
+	 */
+	public List<Comment_anime> selectComment_animeByAnime_id(String anime_id) {
+		return comment_animeMapper.selectComment_animeByAnime_id(anime_id);
+	}
+
+	/*
+	 * 根据id查询评论
+	 */
+	public Comment_anime selectComment_animeById(long id) {
+		return comment_animeMapper.selectComment_animeById(id);
+	}
 }

@@ -33,6 +33,7 @@ public class LoginServlet extends HttpServlet {
 	 * 状态码说明： 200---->允许登录
 	 *             404---->用户未注册
 	 *             422---->密码错误
+	 *             405---->账号已被冻结
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//设置编码
@@ -59,22 +60,24 @@ public class LoginServlet extends HttpServlet {
 					status = 404;
 				}
 				else{
-					String salt = user.getSalt();
-					password = Encryption.encrypt(password, salt);
-					if(!user.getPassword().equals(password)) {//密码错误，不允许登录
-						status = 422;
+					if(user.isBan()) {
+						status = 405;
 					}
-					else {//密码正确，允许登录
-						status = 200;
-						//将用户信息已jsonString的形式存放在session中，便于下次免登录
-						request.getSession().invalidate();
-						HttpSession session = request.getSession(true);
-						session.setMaxInactiveInterval(60*60*24*2);//最多存活两天
-						session.setAttribute("userMemory", JSON.toJSONString(user));
-						
-
-					}
-					
+					else {
+						String salt = user.getSalt();
+						password = Encryption.encrypt(password, salt);
+						if(!user.getPassword().equals(password)) {//密码错误，不允许登录
+							status = 422;
+						}
+						else {//密码正确，允许登录
+							status = 200;
+							//将用户信息已jsonString的形式存放在session中，便于下次免登录
+							request.getSession().invalidate();
+							HttpSession session = request.getSession(true);
+							session.setMaxInactiveInterval(60*60*24*2);//最多存活两天
+							session.setAttribute("userMemory", JSON.toJSONString(user));
+						}
+					}		
 				}
 				JSONObject jsonObject = new JSONObject();
 				jsonObject.put("status", status);

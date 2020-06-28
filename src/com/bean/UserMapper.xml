@@ -15,17 +15,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	<!-- 添加一个用户 -->
 	<insert id="addUser" parameterType="com.bean.User">
-		insert into user (user_id,email,password,salt,user_name,avatar_url)
-		values(#{user_id},#{email},#{password},#{salt},#{user_name},#{avatar_url})
+		insert into user
+		(user_id,email,password,salt,user_name,avatar_url,gender,register_time,ban)
+		values(#{user_id},#{email},#{password},#{salt},#{user_name},#{avatar_url},#{gender},#{register_time},#{ban})
 	</insert>
 	<!-- 删除一个用户 -->
 	<delete id="deleteUser" parameterType="String">
-		delete from user where user_id = #{user_id}
+		delete from user where
+		user_id = #{user_id}
 	</delete>
 	<!-- 修改用户信息 -->
 	<update id="updateUser" parameterType="com.bean.User">
 		update user set
-		password=#{password},salt=#{salt},user_name=#{user_name},avatar_url=#{avatar_url}
+		password=#{password},salt=#{salt},user_name=#{user_name},avatar_url=#{avatar_url},gender=#{gender}
 		where user_id=#{user_id}
 	</update>
 	<!-- 获取用户总数 -->
@@ -33,7 +35,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select count(*) from user
 	</select>
 	<!-- 查询全部用户 -->
-	<select id = "selectAllUsers" resultType="com.bean.User">
-	    select * from user
+	<select id="selectAllUsers" resultType="com.bean.User">
+		select * from user
 	</select>
+	<!-- 冻结账号 -->
+	<update id="banUserByUser_id" parameterType="String">
+		update user set ban
+		= 1 where user_id=#{user_id}
+	</update>
+	<!-- 解冻 -->
+	<update id="unbanUserByUser_id" parameterType="String">
+		update user set
+		ban = 0 where user_id=#{user_id}
+	</update>
 </mapper>
