@@ -12,10 +12,12 @@ public class SessionListener implements HttpSessionListener {
     public void sessionCreated(HttpSessionEvent httpSessionEvent) {  
         HttpSession session = httpSessionEvent.getSession();
         myc.addSession(session);  
+        System.out.println("session create");
     }  
   
     public void sessionDestroyed(HttpSessionEvent httpSessionEvent) {  
         HttpSession session = httpSessionEvent.getSession();  
         myc.delSession(session);  
+        System.out.println("session destory");
     }
 }

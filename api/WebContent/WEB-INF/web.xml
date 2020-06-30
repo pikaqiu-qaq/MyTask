@@ -12,4 +12,38 @@
   <listener>
     <listener-class>com.session.manager.SessionListener</listener-class>
   </listener>
+  <jsp-config>
+    <taglib>
+    <taglib-uri>http://java.sun.com/jsp/jstl/fmt</taglib-uri>
+    <taglib-location>/WEB-INF/lib/fmt.tld</taglib-location>
+    </taglib>
+    <taglib>
+    <taglib-uri>http://java.sun.com/jsp/jstl/fmt-rt</taglib-uri>
+    <taglib-location>/WEB-INF/lib/fmt-rt.tld</taglib-location>
+    </taglib>
+    <taglib>
+    <taglib-uri>http://java.sun.com/jsp/jstl/core</taglib-uri>
+    <taglib-location>/WEB-INF/lib/c.tld</taglib-location>
+    </taglib>
+    <taglib>
+    <taglib-uri>http://java.sun.com/jsp/jstl/core-rt</taglib-uri>
+    <taglib-location>/WEB-INF/lib/c-rt.tld</taglib-location>
+    </taglib>
+    <taglib>
+    <taglib-uri>http://java.sun.com/jsp/jstl/sql</taglib-uri>
+    <taglib-location>/WEB-INF/lib/sql.tld</taglib-location>
+    </taglib>
+    <taglib>
+    <taglib-uri>http://java.sun.com/jsp/jstl/sql-rt</taglib-uri>
+    <taglib-location>/WEB-INF/lib/sql-rt.tld</taglib-location>
+    </taglib>
+    <taglib>
+    <taglib-uri>http://java.sun.com/jsp/jstl/x</taglib-uri>
+    <taglib-location>/WEB-INF/lib/x.tld</taglib-location>
+    </taglib>
+    <taglib>
+    <taglib-uri>http://java.sun.com/jsp/jstl/x-rt</taglib-uri>
+    <taglib-location>/WEB-INF/lib/x-rt.tld</taglib-location>
+    </taglib>
+   </jsp-config> 
 </web-app> 

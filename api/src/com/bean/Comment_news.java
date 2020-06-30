@@ -1,13 +1,13 @@
 package com.bean;
- 
-public class Comment {
-	private long id;//评论的id
-	private String news_id;//所属资讯的id
-	private String user_id;//用户账号
-	private long create_time;//评论发表时间
-	private String content;//评论内容
-	
-	public Comment() {
+
+public class Comment_news {
+	private long id;// 评论的id
+	private String news_id;// 所属资讯的id
+	private String user_id;// 用户账号
+	private long create_time;// 评论发表时间
+	private String content;// 评论内容
+
+	public Comment_news() {
 	}
 
 	public long getId() {
@@ -48,6 +48,6 @@ public class Comment {
 
 	public void setContent(String content) {
 		this.content = content;
-	}	
+	}
 
 }

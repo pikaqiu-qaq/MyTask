@@ -1,6 +1,8 @@
 package com.servlet;
  
 import java.io.IOException;
+import java.util.Date;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -26,7 +28,7 @@ public class RegisterServlet extends HttpServlet {
 
 	/**
 	 * 处理功能：处理客户端的用户注册请求
-	 * 请求参数：email(String),password(String),user_name(String,非必须，默认为“anonymous_user”)
+	 * 请求参数：email(String),password(String),user_name(String,非必须，默认为“anonymous_user”)，sex(String,仅限"未知","男","女")
 	 * 返回参数：status(int)，user_id(String,若注册失败则为null)
 	 * 状态码说明： 201---->注册成功
 	 *             404---->注册失败，邮箱已被注册
@@ -41,9 +43,17 @@ public class RegisterServlet extends HttpServlet {
 		String email = request.getParameter("email");
         String user_name = request.getParameter("user_name");
         if(user_name == null)user_name="anonymous_user";
+        String genderString = request.getParameter("gender");
+        if(genderString == null)genderString = "未知";
+        int gender;
+        if(genderString.contentEquals("男"))gender = 1;
+        else if(genderString.contentEquals("女"))gender = 2;
+        else if(genderString.contentEquals("未知"))gender = 0;
+        else gender = 0;
 		String salt = Encryption.getSalt();
 		String password = Encryption.encrypt(request.getParameter("password"), salt);
-		
+		Date register_time = new Date();
+		System.out.println(register_time.toString());
 		//响应状态码
 		Integer status;
 				
@@ -62,7 +72,7 @@ public class RegisterServlet extends HttpServlet {
 			user_id = IdFactory.creatUserId();
 			
 			//生成默认的头像url
-			String avatar_url = "http://localhost:8080/avatar/default.jpg";
+			String avatar_url = "http://"+request.getHeader("Host")+"/avatar/default.jpg";
 			
 			//向User对象写入
 			user.setUser_id(user_id);
@@ -71,7 +81,9 @@ public class RegisterServlet extends HttpServlet {
 			user.setSalt(salt);
 			user.setUser_name(user_name);
 			user.setAvatar_url(avatar_url);
-			
+			user.setRegister_time(register_time);
+			user.setGender(gender);
+			user.setBan(0);
 			//尝试向数据库添加用户
 			int result = myBatiser.addUser(user);
 			if(result == MyBatiser.SUCCESS) {//注册成功

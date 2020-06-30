@@ -34,7 +34,7 @@ public class Base64Util {
 	        out.flush();
 	        out.close();
 	        return true;
-	    } catch (IOException e) {
+	    } catch (Exception e) {
 	        return false;
 	    }
 	}

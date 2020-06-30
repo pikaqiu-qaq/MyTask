@@ -27,7 +27,8 @@ public class MySessionContext {
    
      public synchronized void delSession(HttpSession session) {  
          if (session != null) {  
-             sessionMap.remove(session.getId());  
+             sessionMap.remove(session.getId()); 
+             System.out.println(sessionMap.size());
          }  
      }  
    

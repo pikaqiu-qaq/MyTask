@@ -3,28 +3,36 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bean.UserMapper">
-    <!-- 根据user_id查询一个用户 -->
-    <select id="selectUserByUser_id" parameterType="String" resultType="com.bean.User">
-        select * from user where user_id = #{user_id}
-    </select>
-    <!-- 根据email查询一个用户 -->
-    <select id="selectUserByEmail" parameterType="String" resultType="com.bean.User">
-        select * from user where email = #{email}
-    </select>
-    <!-- 添加一个用户-->
-    <insert id="addUser" parameterType="com.bean.User">
-        insert into user (user_id,email,password,salt,user_name,avatar_url)
-        values(#{user_id},#{email},#{password},#{salt},#{user_name},#{avatar_url})
-    </insert>
-    <!-- 删除一个用户 -->
-    <delete id="deleteUser" parameterType="String">
-        delete from user where user_id = #{user_id}
-    </delete>
-    <!-- 修改用户信息 -->
-    <update id="updateUser" parameterType="com.bean.User">
-         update user set password=#{password},salt=#{salt},user_name=#{user_name},avatar_url=#{avatar_url} where user_id=#{user_id}
-    </update>
-    <select id="totalUser" resultType="long">
-        select count(*) from user
-    </select>
+	<!-- 根据user_id查询一个用户 -->
+	<select id="selectUserByUser_id" parameterType="String"
+		resultType="com.bean.User">
+		select * from user where user_id = #{user_id}
+	</select>
+	<!-- 根据email查询一个用户 -->
+	<select id="selectUserByEmail" parameterType="String"
+		resultType="com.bean.User">
+		select * from user where email = #{email}
+	</select>
+	<!-- 添加一个用户 -->
+	<insert id="addUser" parameterType="com.bean.User">
+		insert into user (user_id,email,password,salt,user_name,avatar_url,gender,register_time,ban)
+		values(#{user_id},#{email},#{password},#{salt},#{user_name},#{avatar_url},#{gender},#{register_time},#{ban})
+	</insert>
+	<!-- 删除一个用户 -->
+	<delete id="deleteUser" parameterType="String">
+		delete from user where user_id = #{user_id}
+	</delete>
+	<!-- 修改用户信息 -->
+	<update id="updateUser" parameterType="com.bean.User">
+		update user set
+		password=#{password},salt=#{salt},user_name=#{user_name},avatar_url=#{avatar_url},gender=#{gender},ban=#{ban} where user_id=#{user_id}
+	</update>
+	<!-- 获取用户总数 -->
+	<select id="totalUser" resultType="long">
+		select count(*) from user
+	</select>
+	<!-- 查询全部用户 -->
+	<select id = "selectAllUsers" resultType="com.bean.User">
+	    select * from user
+	</select>
 </mapper>

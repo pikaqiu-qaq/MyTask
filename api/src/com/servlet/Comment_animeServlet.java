@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.bean.Comment;
+import com.bean.Comment_anime;
 import com.bean.User;
 import com.mybatis.MyBatiser;
 import com.session.manager.MySessionContext;
@@ -21,38 +21,38 @@ import com.session.manager.MySessionContext;
 /**
  * Servlet implementation class CommentServlet
  */
-@WebServlet("/v1/news/comment")
-public class CommentServlet extends HttpServlet {
+@WebServlet("/v1/anime/comment")
+public class Comment_animeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-    public CommentServlet() {
+    public Comment_animeServlet() {
         super();
     }
 
 	/**
-	 * ´¦Àí¹¦ÄÜ£º»ñÈ¡Ö¸¶¨news_idµÄÆÀÂÛ
-	 * ÇëÇó²ÎÊı£ºnews_id(String)
-	 * ·µ»Ø²ÎÊı£ºstatus(int),List<Comment>
-	 * ×´Ì¬ÂëËµÃ÷£º 200---->³É¹¦·µ»Ø°üº¬ÆÀÂÛµÄ·Ç¿Õ¼¯ºÏ
-	 *             404---->Êı¾İ¿âÖĞÃ»ÓĞ´Ë×ÊÑ¶µÄÆÀÂÛ£¬·µ»ØµÄÆÀÂÛÊı¾İÎªnull
+	 * æ¾¶å‹­æ‚Šé”ç†»å…˜é”›æ°³å¹é™æ ¨å¯šç€¹æ­¯ews_idé¨å‹®ç˜ç’ï¿½
+	 * ç’‡é”‹çœ°é™å‚›æšŸé”›æ­¯ews_id(String)
+	 * æ©æ–¿æ´–é™å‚›æšŸé”›æ­´tatus(int),List<Comment>
+	 * é˜èˆµï¿½ä½ºçˆœç’‡å­˜æ§‘é”›ï¿½ 200---->é´æ„¬å§›æ©æ–¿æ´–é–å‘­æƒˆç’‡å‹®î†‘é¨å‹¯æ½ªç»Œæ´ªæ³¦éšï¿½
+	 *             404---->éç‰ˆåµæ´æ’²è…‘å¨Œâ„ƒæ¹å§ã‚ˆç¥«ç’îˆœæ®‘ç’‡å‹®î†‘é”›å²ƒç¹‘é¥ç‚µæ®‘ç’‡å‹®î†‘éç‰ˆåµæ¶“ç°„ull
 	 *             
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		getComments(request, response);
+		getComments_anime(request, response);
 	}
 
 	/**
-	 * ÇëÇóÍ·£º°üº¬Ğ¯´øsessionidµÄcookie
-	 * ´¦Àí¹¦ÄÜ£º½ÓÊÕ¿Í»§¶ËµÄÆÀÂÛĞÅÏ¢£¬´æÈëÊı¾İ¿â
-	 * ÇëÇó²ÎÊı£ºnews_id(String),content(String)
-	 * ·µ»Ø²ÎÊı£ºstatus(int)
-	 * ×´Ì¬ÂëËµÃ÷£º 401---->ÓÃ»§Ã»ÓĞÈ¨ÏŞ½øĞĞ´Ë²Ù×÷
-	 *             200---->³É¹¦½«¿Í»§¶Ë´«À´µÄÆÀÂÛĞÅÏ¢Ìí¼Óµ½Êı¾İ¿â        
-	 *             500---->Ìí¼ÓÊ§°Ü£¬·şÎñÆ÷³ö´í»ò²ÎÊı²¿·ÖÎªnull
+	 * ç’‡é”‹çœ°æ¾¶è¾¾ç´°é–å‘­æƒˆé¼å“„ç”«sessionidé¨åˆ¢ookie
+	 * æ¾¶å‹­æ‚Šé”ç†»å…˜é”›æ°­å¸´é€è·ºî…¹é´é£î¬é¨å‹®ç˜ç’è½°ä¿Šé­îˆ¤ç´ç€›æ¨ºå†éç‰ˆåµæ´ï¿½
+	 * ç’‡é”‹çœ°é™å‚›æšŸé”›æ­¯ews_id(String),content(String)
+	 * æ©æ–¿æ´–é™å‚›æšŸé”›æ­´tatus(int)
+	 * é˜èˆµï¿½ä½ºçˆœç’‡å­˜æ§‘é”›ï¿½ 401---->é¢ã„¦åŸ›å¨Œâ„ƒæ¹é‰å†®æªºæ©æ¶œî”‘å§ã‚†æ·æµ£ï¿½
+	 *             200---->é´æ„¬å§›çå——î…¹é´é£î¬æµ¼çŠ³æ½µé¨å‹®ç˜ç’è½°ä¿Šé­îˆ›åŠé”çŠ²åŸŒéç‰ˆåµæ´ï¿½        
+	 *             500---->å¨£è¯²å§æ¾¶è¾«è§¦é”›å±¾æ¹‡é”â€³æ«’é‘æ´ªæ•Šé´æ §å¼¬éä¼´å„´é’å—•è´Ÿnull
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if(check_post(request)) {
-			postComment(request,response);
+			postComment_anime(request,response);
 		}
 		else {
 			JSONObject jsonObject = new JSONObject();
@@ -63,21 +63,21 @@ public class CommentServlet extends HttpServlet {
 	}
 
 	/**
-	 * ÇëÇóÍ·£º°üº¬Ğ¯´øsessionidµÄcookie
-	 * ´¦Àí¹¦ÄÜ£º½ÓÊÕ¿Í»§¶Ë´«À´µÄÆÀÂÛid£¬´ÓÊı¾İ¿âÖĞÉ¾³ıÖ¸¶¨idµÄÆÀÂÛ
-	 * ÇëÇó²ÎÊı£ºid(long)
-	 * ·µ»Ø²ÎÊı£ºstatus(int)
-	 * ×´Ì¬ÂëËµÃ÷£º 401---->ÓÃ»§Ã»ÓĞÈ¨ÏŞ½øĞĞ´Ë²Ù×÷
-	 *             200---->³É¹¦´ÓÊı¾İ¿âÉ¾³ıÖ¸¶¨idµÄÆÀÂÛ
-	 *             500---->É¾³ıÊ§°Ü£¬·şÎñÆ÷³ö´í
+	 * ç’‡é”‹çœ°æ¾¶è¾¾ç´°é–å‘­æƒˆé¼å“„ç”«sessionidé¨åˆ¢ookie
+	 * æ¾¶å‹­æ‚Šé”ç†»å…˜é”›æ°­å¸´é€è·ºî…¹é´é£î¬æµ¼çŠ³æ½µé¨å‹®ç˜ç’ç¯¿dé”›å±¼ç² éç‰ˆåµæ´æ’²è…‘é’çŠ»æ«é¸å›§ç•¾idé¨å‹®ç˜ç’ï¿½
+	 * ç’‡é”‹çœ°é™å‚›æšŸé”›æ­©d(long)
+	 * æ©æ–¿æ´–é™å‚›æšŸé”›æ­´tatus(int)
+	 * é˜èˆµï¿½ä½ºçˆœç’‡å­˜æ§‘é”›ï¿½ 401---->é¢ã„¦åŸ›å¨Œâ„ƒæ¹é‰å†®æªºæ©æ¶œî”‘å§ã‚†æ·æµ£ï¿½
+	 *             200---->é´æ„¬å§›æµ åº¢æšŸé¹î†¼ç°±é’çŠ»æ«é¸å›§ç•¾idé¨å‹®ç˜ç’ï¿½
+	 *             500---->é’çŠ»æ«æ¾¶è¾«è§¦é”›å±¾æ¹‡é”â€³æ«’é‘æ´ªæ•Š
 	 */
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String id_s = getStringFromStream(request);
 		long id = Long.parseLong(id_s.substring(3, id_s.length()));
 		if(check_delete(request,id)) {
-			deleteComment(request,response,id);
+			deleteComment_anime(request,response,id);
 		}
-		else {//È¨ÏŞ²»¹»
+		else {//é‰å†®æªºæ¶“å¶…î™„
 			JSONObject jsonObject = new JSONObject();
 			jsonObject.put("status", 401);
 			String json = jsonObject.toJSONString();
@@ -86,7 +86,7 @@ public class CommentServlet extends HttpServlet {
 	}
 	
 	/*
-	 * »ñÈ¡deleteÇëÇóÀïµÄ²ÎÊı
+	 * é‘¾å³°å½‡deleteç’‡é”‹çœ°é–²å²€æ®‘é™å‚›æšŸ
 	 */
 	private String getStringFromStream(HttpServletRequest req) {
 			ServletInputStream is;
@@ -110,12 +110,12 @@ public class CommentServlet extends HttpServlet {
 
 	
 	/*
-	 * ¼ìÑéÓÃ»§postÈ¨ÏŞ
+	 * å¦«ï¿½æ¥ å²€æ•¤é´ç©šosté‰å†®æªº
 	 */
 	private boolean check_post(HttpServletRequest request) {
 		Cookie[] cookies = request.getCookies();
 		if(cookies != null) {
-			//¶ÔÃ¿¸öcookie½øĞĞËÑË÷
+			//ç€µè§„ç˜¡æ¶“çŒšookieæ©æ¶œî”‘é¼æ»…å‚¨
 			for(Cookie c:cookies) {
 				if(c.getName().contentEquals("JSESSIONID")) {
 					HttpSession session = MySessionContext.getSession(c.getValue());
@@ -135,12 +135,12 @@ public class CommentServlet extends HttpServlet {
 	}
 	
 	/*
-	 * ¼ìÑéÓÃ»§deleteÈ¨ÏŞ
+	 * å¦«ï¿½æ¥ å²€æ•¤é´ç©Œeleteé‰å†®æªº
 	 */
 	private boolean check_delete(HttpServletRequest request,long id) {
 		Cookie[] cookies = request.getCookies();
 		if(cookies != null) {
-			//¶ÔÃ¿¸öcookie½øĞĞËÑË÷
+			//ç€µè§„ç˜¡æ¶“çŒšookieæ©æ¶œî”‘é¼æ»…å‚¨
 			for(Cookie c:cookies) {
 				if(c.getName().contentEquals("JSESSIONID")) {
 					HttpSession session = MySessionContext.getSession(c.getValue());
@@ -152,10 +152,11 @@ public class CommentServlet extends HttpServlet {
 							String user_id = user.getUser_id();
 
 							MyBatiser myBatiser = new MyBatiser();
-							Comment comment = myBatiser.selectCommentById(id);
-							if(comment != null && user_id.contentEquals(comment.getUser_id()))return true;
+							Comment_anime comment_anime = myBatiser.selectComment_animeById(id);
+							if(comment_anime != null && user_id.contentEquals(comment_anime.getUser_id()))return true;
 						}
-					}
+					}	
+					
 				}
 			}
 		}
@@ -166,25 +167,25 @@ public class CommentServlet extends HttpServlet {
 	/*
 	 * 
 	 */
-	private void getComments(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//ÉèÖÃ±àÂë
+	private void getComments_anime(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//ç’å‰§ç–†ç¼‚æ «çˆœ
 		response.setCharacterEncoding("utf-8");
 		request.setCharacterEncoding("utf-8");
 		
-		//»ñÈ¡¿Í»§¶Ë´«À´µÄnews_id
-		String news_id = request.getParameter("news_id");
+		//é‘¾å³°å½‡ç€¹ãˆ¡åŸ›ç»”îˆ™ç´¶é‰ãƒ§æ®‘news_id
+		String anime_id = request.getParameter("anime_id");
 		
-		//´´½¨Ò»¸öÊı¾İ¿â²Ù×÷¶ÔÏó
+		//é’æ¶˜ç¼“æ¶“ï¿½æ¶“î…æšŸé¹î†¼ç°±é¿å¶„ç¶”ç€µç¡…è–„
 		MyBatiser myBatiser = new MyBatiser();
 		
-		//´ÓÊı¾İ¿â»ñÈ¡ÆÀÂÛ
-		List<Comment> comments = myBatiser.selectCommentByNews_id(news_id);	
+		//æµ åº¢æšŸé¹î†¼ç°±é‘¾å³°å½‡ç’‡å‹®î†‘
+		List<Comment_anime> animecomments = myBatiser.selectComment_animeByAnime_id(anime_id);	
 		
-		//×´Ì¬Âë
+		//é˜èˆµï¿½ä½ºçˆœ
 		int status;
 		
-		//ÑéÖ¤ÊÇ·ñÓĞÆÀÂÛ
-		if(comments.isEmpty()) {
+		//æ¥ å²ƒç˜‰é„îˆšæƒéˆå¤ç˜ç’ï¿½
+		if(animecomments.isEmpty()) {
 			status=404;
 		}
 		else {
@@ -193,10 +194,10 @@ public class CommentServlet extends HttpServlet {
 
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("status", status);
-		jsonObject.put("comments",comments);
+		jsonObject.put("comments",animecomments);
 		String json = jsonObject.toJSONString();
 
-	    //´æÈëresponse£¬·µ»Ø¸ø¿Í»§¶Ë
+	    //ç€›æ¨ºå†responseé”›å²ƒç¹‘é¥ç‚µç²°ç€¹ãˆ¡åŸ›ç»”ï¿½
 		response.getWriter().write(json);
 	}
 	
@@ -204,19 +205,19 @@ public class CommentServlet extends HttpServlet {
 	/*
 	 * 
 	 */
-	private void postComment(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//ÉèÖÃ±àÂë
+	private void postComment_anime(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//ç’å‰§ç–†ç¼‚æ «çˆœ
 		response.setCharacterEncoding("utf-8");
         request.setCharacterEncoding("utf-8");
         
-        //»ñÈ¡ÇëÇó²ÎÊı
-        String news_id=request.getParameter("news_id");
+        //é‘¾å³°å½‡ç’‡é”‹çœ°é™å‚›æšŸ
+        String anime_id=request.getParameter("anime_id");
         String content=request.getParameter("content");
         
-        //»ñÈ¡µ±Ç°Ê±¼ä
-        long creat_time = System.currentTimeMillis()/1000L;
+        //é‘¾å³°å½‡è¤°æ’³å¢ éƒå •æ£¿
+        long create_time = System.currentTimeMillis()/1000L;
         
-        //»ñÈ¡sessionÀïµÄuser_id
+        //é‘¾å³°å½‡sessioné–²å²€æ®‘user_id
         Cookie[] cookies = request.getCookies();
         String sessionid = null;
         for(Cookie c:cookies) {
@@ -229,33 +230,33 @@ public class CommentServlet extends HttpServlet {
         User user = JSON.parseObject(json1,User.class);
 		String user_id = user.getUser_id();
 		
-        //×´Ì¬Âë
+        //é˜èˆµï¿½ä½ºçˆœ
         int status;
         
-        //´´½¨Êı¾İ¿â²Ù×÷¶ÔÏó
+        //é’æ¶˜ç¼“éç‰ˆåµæ´æ’´æ·æµ£æ»ƒî‡®ç’ï¿½
         MyBatiser myBatiser = new MyBatiser();
         
-        //¹¹½¨Comment¶ÔÏóÊµÀı
-        Comment comment=new Comment();
-        comment.setNews_id(news_id);
-        comment.setUser_id(user_id);
-        comment.setCreate_time(creat_time);
-        comment.setContent(content);
+        //é‹å‹«ç¼“Commentç€µç¡…è–„ç€¹ç‚°ç·¥
+        Comment_anime comment_anime=new Comment_anime();
+        comment_anime.setAnime_id(anime_id);
+        comment_anime.setUser_id(user_id);
+        comment_anime.setCreate_time(create_time);
+        comment_anime.setContent(content);
         
-        //³¢ÊÔÏòÊı¾İ¿âÌí¼Ó
-        boolean result= myBatiser.addComment(comment);
+        //çæ¿Šç˜¯éšæˆæšŸé¹î†¼ç°±å¨£è¯²å§
+        boolean result= myBatiser.addComment_anime(comment_anime);
         
         if(result) {
-			status = 200;//Êı¾İ¿âÌí¼ÓÆÀÂÛ³É¹¦
+			status = 200;//éç‰ˆåµæ´æ’´åŠé”çŠºç˜ç’çƒ˜åšé”ï¿½
 		}
 		else {
-			status = 500;//·şÎñÆ÷³ö´í
+			status = 500;//éˆå¶…å§Ÿé£ã„¥åš­é–¿ï¿½
 		}
         
-        //¹Ø±ÕSqlSession¶ÔÏó
+        //éæŠ½æ£´SqlSessionç€µç¡…è–„
         myBatiser.closeSqlSession();
   		
-  		//·µ»ØÏìÓ¦ĞÅÏ¢
+  		//æ©æ–¿æ´–éå¶…ç°²æ·‡â„ƒä¼…
   		JSONObject jsonObject = new JSONObject();
   		jsonObject.put("status", status);
   		String json2 = jsonObject.toJSONString();
@@ -266,28 +267,28 @@ public class CommentServlet extends HttpServlet {
 	/*
 	 * 
 	 */
-	private void deleteComment(HttpServletRequest request, HttpServletResponse response,long id) throws ServletException, IOException {
-		//ÉèÖÃ±àÂë
+	private void deleteComment_anime(HttpServletRequest request, HttpServletResponse response,long id) throws ServletException, IOException {
+		//ç’å‰§ç–†ç¼‚æ «çˆœ
 		response.setCharacterEncoding("utf-8");
 		request.setCharacterEncoding("utf-8");
 
-		//×´Ì¬Âë
+		//é˜èˆµï¿½ä½ºçˆœ
 		Integer status;
 		
-		//´´½¨Êı¾İ¿â²Ù×÷¶ÔÏó
+		//é’æ¶˜ç¼“éç‰ˆåµæ´æ’´æ·æµ£æ»ƒî‡®ç’ï¿½
 		MyBatiser myBatiser = new MyBatiser();
 		
-		//³¢ÊÔÍ¨¹ıidÉ¾³ıÆÀÂÛ
-		boolean result=myBatiser.deleteCommentById(id);
+		//çæ¿Šç˜¯é–«æ°³ç¹ƒidé’çŠ»æ«ç’‡å‹®î†‘
+		boolean result=myBatiser.deleteComment_animeById(id);
 		
 		if(result) {
-			status=200;//´ÓÊı¾İ¿âÉ¾³ıÆÀÂÛ³É¹¦
+			status=200;//æµ åº¢æšŸé¹î†¼ç°±é’çŠ»æ«ç’‡å‹®î†‘é´æ„¬å§›
 		}
 		else {
-			status=500;//·şÎñÆ÷³ö´í 
+			status=500;//éˆå¶…å§Ÿé£ã„¥åš­é–¿ï¿½ 
 		}
 			
-        //·µ»Ø²ÎÊı
+        //æ©æ–¿æ´–é™å‚›æšŸ
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("status", status);
 		String json = jsonObject.toJSONString();

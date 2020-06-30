@@ -1,161 +1,248 @@
 package com.mybatis;
- 
+
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
-import com.bean.Comment;
-import com.bean.CommentMapper;
+
+import com.bean.Comment_anime;
+import com.bean.Comment_animeMapper;
+import com.bean.Comment_news;
+import com.bean.Comment_newsMapper;
 import com.bean.User;
 import com.bean.UserMapper;
 
 /*
- * Êı¾İ¿â²Ù×÷·½·¨Àà
+ * éç‰ˆåµæ´æ’´æ·æµ£æ»„æŸŸå¨‰æ› è¢«
  */
 public class MyBatiser {
-	
+
 	public static int NOT_FOUND = 1;
 	public static int EXIST = 2;
 	public static int SUCCESS = 3;
 	public static int FAILED = 4;
-	
+
 	private SqlSession session;
 	private UserMapper userMapper;
-	private CommentMapper commentMapper;
-	
+	private Comment_newsMapper comment_newsMapper;
+	private Comment_animeMapper comment_animeMapper;
+
 	public MyBatiser() {
 		MyBatisInit.init();
-    	this.session = MyBatisInit.getSession();
-    	this.userMapper = session.getMapper(UserMapper.class);
-    	this.commentMapper = session.getMapper(CommentMapper.class);
+		this.session = MyBatisInit.getSession();
+		this.userMapper = session.getMapper(UserMapper.class);
+		this.comment_newsMapper = session.getMapper(Comment_newsMapper.class);
+		this.comment_animeMapper = session.getMapper(Comment_animeMapper.class);
 	}
-    
+
+	/*
+	 * éæŠ½æ£´SqlSessionç€µç¡…è–„
+	 */
+	public void closeSqlSession() {
+		session.close();
+	}
+
+	/*
+	 * æ©æ–¿æ´–è¤°æ’³å¢ é¢ã„¦åŸ›é¬ç»˜æšŸé”›å±½åµ†useréç‰ˆåµç›ã„§æ®‘é¬æ˜î”‘éï¿½
+	 */
+	public long totalUser() {
+		return userMapper.totalUser();
+	}
+
+	/*
+	 * å¨£è¯²å§æ¶“ï¿½æ¶“î†æ•¤é´ï¿½
+	 */
+	public int addUser(User user) {
+		if (selectUserByEmail(user.getEmail()) != null)
+			return EXIST;
+		try {
+			userMapper.addUser(user);
+			session.commit();
+			return SUCCESS;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return FAILED;
+		}
+	}
+
+	/*
+	 * é’çŠ»æ«é¸å›§ç•¾user_idé¨å‹­æ•¤é´ï¿½
+	 */
+	public int deleteUser(User user) {
+		if (this.selectUserByUser_id(user.getUser_id()) == null)
+			return NOT_FOUND;
+		try {
+			userMapper.deleteUser(user);
+			session.commit();
+			return SUCCESS;
+		} catch (Exception e) {
+			session.rollback();
+			e.printStackTrace();
+			return FAILED;
+		}
+	}
+
+	/*
+	 * æ·‡î†½æ•¼é¸å›§ç•¾é¢ã„¦åŸ›
+	 */
+	public int updateUser(User user) {
+		if (this.selectUserByUser_id(user.getUser_id()) == null)
+			return NOT_FOUND;
+		try {
+			userMapper.updateUser(user);
+			session.commit();
+			return SUCCESS;
+		} catch (Exception e) {
+			session.rollback();
+			e.printStackTrace();
+			return FAILED;
+		}
+	}
+
+	/*
+	 * é–«æ°³ç¹ƒuser_idéŒãƒ¨î‡—é¢ã„¦åŸ›,é‘»ãƒ¦ç—…éˆå¤‹î„é¢ã„¦åŸ›é’æ¬’ç¹‘é¥ç€—ull
+	 */
+	public User selectUserByUser_id(String user_id) {
+		return userMapper.selectUserByUser_id(user_id);
+	}
+
+	/*
+	 * é–«æ°³ç¹ƒemailéŒãƒ¨î‡—é¢ã„¦åŸ›,é‘»ãƒ¦ç—…éˆå¤‹î„é¢ã„¦åŸ›é’æ¬’ç¹‘é¥ç€—ull
+	 */
+	public User selectUserByEmail(String email) {
+		return userMapper.selectUserByEmail(email);
+	}
+
+	/*
+	 * éŒãƒ¨î‡—éµï¿½éˆå¤Œæ•¤é´ï¿½
+	 */
+	public List<User> selectAllUsers(){
+		return userMapper.selectAllUsers();
+	}
 	
 	/*
-     * ¹Ø±ÕSqlSession¶ÔÏó
-     */
-    public void closeSqlSession() {
-    	session.close();
-    }
-    
-    
-    /*
-     * ·µ»Øµ±Ç°ÓÃ»§×ÜÊı£¬¼´userÊı¾İ±íµÄ×ÜĞĞÊı
-     */
-    public long totalUser() {
-    	return userMapper.totalUser();
-    }
-    
-    
-    /*
-	 * Ìí¼ÓÒ»¸öÓÃ»§
+	 * éè¤ç²¨é¢ã„¦åŸ›
 	 */
-    public int addUser(User user) {
-    	if(selectUserByEmail(user.getEmail())!=null)return EXIST;
-    	try {
-    		userMapper.addUser(user);
-    		session.commit();
-    		return SUCCESS;
-    	}catch(Exception e) {
-    		e.printStackTrace();
-    		return FAILED;
-    	}
-    }
-    
-    
-    /*
-     * É¾³ıÖ¸¶¨user_idµÄÓÃ»§
-     */
-    public int deleteUser(User user) {
-    	if(this.selectUserByUser_id(user.getUser_id())==null)return NOT_FOUND;
-    	try {
-            userMapper.deleteUser(user);
-            session.commit();
-            return SUCCESS;
-        } catch (Exception e) {
-            session.rollback();
-            e.printStackTrace();
-            return FAILED;
-        }
-    }
-    
-    
-    /*
-     * ĞŞ¸ÄÖ¸¶¨ÓÃ»§
-     */
-    public int updateUser(User user) {
-    	if(this.selectUserByUser_id(user.getUser_id())==null)return NOT_FOUND;
-    	try {
-    		userMapper.updateUser(user);
-            session.commit();
-            return SUCCESS;
-        } catch (Exception e) {
-            session.rollback();
-            e.printStackTrace();
-            return FAILED;
-        }
-    }
-    
-    
-    /*
-     * Í¨¹ıuser_id²éÑ¯ÓÃ»§,ÈôÃ»ÓĞ´ËÓÃ»§Ôò·µ»Ønull
-     */
-    public User selectUserByUser_id(String user_id) {
-		return userMapper.selectUserByUser_id(user_id);
-    }
-    
-    
-    /*
-     * Í¨¹ıemail²éÑ¯ÓÃ»§,ÈôÃ»ÓĞ´ËÓÃ»§Ôò·µ»Ønull
-     */
-    public User selectUserByEmail(String email) {
-    	return userMapper.selectUserByEmail(email);
-    }
-    
-    /*
-     * ÏòcommentÊı¾İ±íÔö¼ÓÒ»ÌõÆÀÂÛ
-     */
-    public boolean addComment(Comment comment) {
-    	try {
-    		commentMapper.addComment(comment);
-    		session.commit();
-    		return true;
-    	}catch(Exception e) {
-    		e.printStackTrace();
-    		return false;
-    	}
-    }
-    
-    /*
-     * ¸ù¾İidÉ¾³ıÆÀÂÛ
-     */
-    public boolean deleteCommentById(long id) {
-    	try {
-    		commentMapper.deleteCommentById(id);
-    		session.commit();
-    		return true;
-    	}catch(Exception e) {
-    		e.printStackTrace();
-    		return false;
-    	}
-    }
-    
-    
-    /*
-     * Í¨¹ınews_id²éÑ¯Comment£¬·µ»ØList<Comment>
-     */
-    public List<Comment> selectCommentByNews_id(String news_id){
-    	return commentMapper.selectCommentByNews_id(news_id);
-    }
-
-    
-    /*
-     * ¸ù¾İid²éÑ¯ÆÀÂÛ
-     */
-	public Comment selectCommentById(long id) {
-		return commentMapper.selectCommentById(id);
+	public boolean banUserByUser_id(String user_id) {
+		try {
+			User user = userMapper.selectUserByUser_id(user_id);
+			if(user==null)return false;
+			user.setBan(1);
+			this.updateUser(user);
+			return true;
+		}catch(Exception e) {
+			return false;
+		}
+		
 	}
 	
+	/*
+	 * ç‘™ï½…å–•
+	 */
+	public boolean unbanUserByUser_id(String user_id) {
+		try {
+			User user = userMapper.selectUserByUser_id(user_id);
+			//if(user==null)return false;
+			user.setBan(0);
+			this.updateUser(user);
+			return true;
+		}catch(Exception e) {
+			return false;
+		}
+		
+	}
 	
-    
+	/*
+	 * éšæ…¶ommentéç‰ˆåµç›ã„¥î–ƒé”çŠ±ç«´é‰Â¤ç˜ç’ï¿½
+	 */
+	public boolean addComment(Comment_news comment) {
+		try {
+			comment_newsMapper.addComment(comment);
+			session.commit();
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	/*
+	 * éè§„åµidé’çŠ»æ«ç’‡å‹®î†‘
+	 */
+	public boolean deleteCommentById(long id) {
+		try {
+			comment_newsMapper.deleteCommentById(id);
+			session.commit();
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	/*
+	 * é–«æ°³ç¹ƒnews_idéŒãƒ¨î‡—Commenté”›å²ƒç¹‘é¥æ¿´ist<Comment>
+	 */
+	public List<Comment_news> selectCommentByNews_id(String news_id) {
+		return comment_newsMapper.selectCommentByNews_id(news_id);
+	}
+
+	/*
+	 * éè§„åµidéŒãƒ¨î‡—ç’‡å‹®î†‘
+	 */
+	public Comment_news selectCommentById(long id) {
+		return comment_newsMapper.selectCommentById(id);
+	}
+
+	
+	
+	/*
+	 * éšæ…¶omment_animeéç‰ˆåµç›ã„¥î–ƒé”çŠ±ç«´é‰Â¤ç˜ç’ï¿½
+	 */
+	public boolean addComment_anime(Comment_anime comment_anime) {
+		try {
+			comment_animeMapper.addComment_anime(comment_anime);
+			session.commit();
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	/*
+	 * éè§„åµidé’çŠ»æ«é£î„å¢½ç’‡å‹®î†‘
+	 */
+	public boolean deleteComment_animeById(long id) {
+		try {
+			comment_animeMapper.deleteComment_animeById(id);
+			session.commit();
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	/*
+	 * é–«æ°³ç¹ƒanime_idéŒãƒ¨î‡—Comment_animeé”›å²ƒç¹‘é¥æ¿´ist<Comment_anime>
+	 */
+	public List<Comment_anime> selectComment_animeByAnime_id(String anime_id) {
+		return comment_animeMapper.selectComment_animeByAnime_id(anime_id);
+	}
+
+	/*
+	 * éè§„åµidéŒãƒ¨î‡—ç’‡å‹®î†‘
+	 */
+	public Comment_anime selectComment_animeById(long id) {
+		return comment_animeMapper.selectComment_animeById(id);
+	}
+	
+	public List<Comment_news> selectAllComment_news(){
+		return comment_newsMapper.selectAllComment_news();
+	}
+	
+	public List<Comment_anime> selectAllComment_anime(){
+		return comment_animeMapper.selectAllComment_anime();
+	}
 }
