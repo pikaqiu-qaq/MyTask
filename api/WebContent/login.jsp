@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 <body>
 <h1 style="text-align:center">驿站app官网</h1>
-<button style="margin-left:800px;margin-top:0px;width:150px" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">管理员登录</button>
+<button style="margin-left:800px;margin-top:0px;width:150px" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" onclick="login()">管理员登录</button>
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -27,7 +27,7 @@
 			</div>
 			<!--登陆框中间部分(from表单)-->
 			<div class="modal-body">
-				<form id="form1" class="form-horizontal" role="form" method="get" action="user_table.jsp">
+				<form id="form1" class="form-horizontal" role="form" method="post" action="ManagerLoginServlet">
 					<!--用户框-->
 					<div class="form-group">
 						<label for="username" class="col-sm-2 control-label">用户名</label>
@@ -55,7 +55,7 @@
 					<!--登陆按钮-->
 					<div class="form-group">
 						<div class="col-sm-offset-2 col-sm-10">
-						<button type="button" onclick="check()" class="btn btn-default">登录</button>
+						<button type="submit" class="btn btn-default">登录</button>
 						</div>
 					</div>
 				</form>
@@ -75,6 +75,7 @@
 
 <script type="text/javascript">
 function login(){
+	    var username = document.getElementById("username");
 		$('#myModal').modal('show') //显示模态框
 }
 function check(){
@@ -87,7 +88,7 @@ function check(){
 	else{
 		alert("验证失败")
 	}
-	
+	login();
 }
 </script>
 </body>

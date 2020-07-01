@@ -1,5 +1,7 @@
+<%@ page language="java" contentType="text/html; charset=utf-8"
+    pageEncoding="utf-8"%>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -25,115 +27,94 @@
   <link rel="stylesheet" href="css/daterangepicker.css">
   <!-- summernote -->
   <link rel="stylesheet" href="css/summernote-bs4.min.css">
-  <link rel="stylesheet" href="css/summernote-bs4.min.css">
+  <!-- <link rel="stylesheet" href="css/jquery.ui.min.css">-->
+
 </head>
 <body class="hold-transition sidebar-mini layout-fixed" onload="getData()">
 <div class="wrapper">
+        <!-- Navbar -->
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+            <!-- Left navbar links -->
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><img src="img/open.jpg" style="width:30px;height:30px"></a>
+                </li>
+            </ul>
 
-  <!-- Navbar -->
-  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-    <!-- Left navbar links -->
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-      </li>
-    </ul>
+            <!-- Right navbar links -->
+            <ul class="navbar-nav ml-auto">
+                <!-- Messages Dropdown Menu -->
 
-    <!-- Right navbar links -->
-    <ul class="navbar-nav ml-auto">  
-      <li class="nav-item">
-        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
-          <i class="fas fa-th-large"></i>
-        </a>
-      </li>
-    </ul>
-  </nav>
-  <!-- /.navbar -->
+                <!-- Notifications Dropdown Menu -->
 
-  <!-- Main Sidebar Container -->
-  <aside class="main-sidebar sidebar-dark-primary elevation-4">
-    <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link">
-      <img src="dist/img/cartonhorse.jpg" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">se驿站</span>
-    </a>
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
+                        <img src="img/head.jpg" style="width:35px;height:35px">
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <!-- /.navbar -->
 
-    <!-- Sidebar -->
-    <div class="sidebar">
-      <!-- Sidebar user panel (optional) -->
-      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="image">
-          <img src="dist/img/hanfei.jpg" class="img-circle elevation-2" alt="User Image">
-        </div>
-        <div class="info">
-          <a href="#" class="d-block">Yuyue</a>
-        </div>
-      </div>
+        <!-- Main Sidebar Container -->
+        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+            <!-- Brand Logo -->
+            <a href="main.html" class="brand-link">
+                <img src="img/cartonhorse.jpg" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+                <span class="brand-text font-weight-light">se驿站</span>
+            </a>
 
-      <!-- Sidebar Menu -->
-      <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <!-- Add icons to the links using the .nav-icon class
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <!-- Sidebar user panel (optional) -->
+                <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                    <div class="image">
+                        <img src="img/hanfei.jpg" class="img-circle elevation-2" alt="User Image">
+                    </div>
+                    <div class="info">
+                        <a href="#" class="d-block">Yuyue</a>
+                    </div>
+                </div>
+
+                <!-- Sidebar Menu -->
+                <nav class="mt-2">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                        <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-          <li class="nav-item has-treeview menu-open">
+                        <li class="nav-item has-treeview menu-open">
             <a href="#" class="nav-link active">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
-              <p>
-                面板
-                <i class="right fas fa-angle-left"></i>
-              </p>
+               <img src="img/red.png" style="width:32px;height:32px" class="img-circle"></img>
+               <p style="margin-left:5px"> 面板</p>
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="主界面.html" class="nav-link active"> 
-                   <i class="nav-icon fas fa-circle"></i>
-                  <p>主面板</p>
+                <a href="main.jsp" class="nav-link active"> 
+                <img src="img/yellow.png" style="width:32px;height:32px" class="img-circle"></img>
+               <p style="margin-left:5px"> 数据总览</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="user_table.jsp" class="nav-link active">
                   
-                   <i class="nav-icon fas fa-circle"></i>
-                  <p>用户管理</p>
+                   <img src="img/blue.png" style="width:32px;height:32px" class="img-circle"></img>
+               <p style="margin-left:5px"> 用户管理</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="comment_table.jsp" class="nav-link active">
-                   <i class="nav-icon fas fa-circle"></i>
-                  <p>评论管理</p>
+                  <img src="img/green.png" style="width:32px;height:32px" class="img-circle"></img>
+               <p style="margin-left:5px"> 评论管理</p>
                 </a>
               </li>
             </ul>
-          </li> 
-    
-  
-          <li class="nav-item has-treeview">
-
-          <li class="nav-header">LABELS</li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon far fa-circle text-danger"></i>
-              <p class="text"></p>
-            </a>
           </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon far fa-circle text-warning"></i>
-              <p></p>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon far fa-circle text-info"></i>
-              <p></p>
-            </a>
-          </li>
-        </ul>
-      </nav>
-      <!-- /.sidebar-menu -->
-    </div>
-    <!-- /.sidebar -->
-  </aside>
+                    </ul>
+                </nav>
+                <!-- /.sidebar-menu -->
+            </div>
+            <!-- /.sidebar -->
+        </aside>
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -142,7 +123,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-dark">se驿站</h1>
+            <h1 class="m-0 text-dark">数据总览</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -218,16 +199,15 @@
             <div class="card bg-gradient-info">
               <div class="card-header border-0">
                 <h3 class="card-title">
-                  <i class="fas fa-th mr-1"></i>
                   评论数
                 </h3>
 
                 <div class="card-tools">
                   <button type="button" class="btn bg-info btn-sm" data-card-widget="collapse">
-                    <i class="fas fa-minus"></i>
+                     <img src="img/hide.jpg" style="width:20px;height:20px" class="img-circle"></img>
                   </button>
                   <button type="button" class="btn bg-info btn-sm" data-card-widget="remove">
-                    <i class="fas fa-times"></i>
+                     <img src="img/close.jpg" style="width:20px;height:20px" class="img-circle"></img>
                   </button>
                 </div>
               </div>
@@ -344,7 +324,7 @@ function getData()
 {
  $.ajax({
   type:"get",  
-  url:"http://localhost:13381/api/ManageIndex",
+  url:"http://"+window.location.hostname+":"+window.location.port+"/api/v1/manager_index",
   data: {"rn": Math.floor(Math.random() * 100 + 1) },
   success:function(data)
   {

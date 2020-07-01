@@ -33,6 +33,8 @@ public class BanServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("ban_get");
+
 		//…Ë÷√±‡¬Î
 		response.setCharacterEncoding("utf-8");
 		request.setCharacterEncoding("utf-8");

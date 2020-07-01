@@ -19,11 +19,32 @@
     <link rel="stylesheet" href="css/adminlte.min.css">
 </head>
 <body>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<!--登陆框头部-->
+			<div class="modal-header">
+				<h4 class="modal-title" id="myModalLabel">
+					评论内容
+				</h4>
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    ×
+                </button>
+			</div>
+			<!--登陆框中间部分(from表单)-->
+			<div class="modal-body">
+			<textarea id="content" placeholder="此处显示评论内容" readonly="readonly" style="border:0;height:300px;width:450px"></textarea>
+		</div>	
+		</div>	
+	</div>
+</div>
+
         <div class="row">
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">se驿站</h3>
+                        <h3 class="card-title">番剧评论列表</h3>
                      </div>
                      <div class="card-body">
                         <table id="example1" class="table table-bordered table-hover">
@@ -32,7 +53,7 @@
                                      <th>评论id</th>
                                      <th>资讯id</th>
                                      <th>评论者user_id</th>
-                                     <th>评论时间</th>
+                                     <th>发表时间</th>
                                      <th>评论内容</th>
                                      <th>管理</th>
                                  </tr>
@@ -48,7 +69,7 @@
                                      <td><%=comment_anime_all.get(i).getAnime_id()%></td>
                                      <td><%=comment_anime_all.get(i).getUser_id()%></td>
                                      <td><%=new java.util.Date(comment_anime_all.get(i).getCreate_time())%></td>
-                                     <td><button id="look<%=i%>" onclick="look('<%=comment_anime_all.get(i).getContent()%>')" class="btn btn-default" style="color:green">查看</button></td>
+                                     <td><button id="look<%=i%>" onclick="read('<%=comment_anime_all.get(i).getContent()%>')" class="btn btn-default" style="color:green">查看</button></td>
                                      <td><button id="delete<%=i%>" onclick="remove('<%=i%>','<%=comment_anime_all.get(i).getId()%>')" class="btn btn-default" style="color:red">删除</button></td>
                                  </tr>
                                  <%
@@ -103,7 +124,8 @@
         }
         
         function remove(index,id){
-        	$.post("http://localhost:13381/api/v1/cut",{
+        	alert("");
+        	$.post("http://"+window.location.hostname+":"+window.location.port+"/api/v1/cut",{
     			comment_type:"anime",
     			id:id,
     		},
@@ -120,6 +142,11 @@
     			
     			
     		});
+        }
+        function read(content){
+    	    var username = document.getElementById("content");
+    	    username.value = content;
+    		$('#myModal').modal('show') //显示模态框
         }
     </script> 
 </body>

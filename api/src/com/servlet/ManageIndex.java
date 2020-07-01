@@ -20,7 +20,7 @@ import com.mybatis.MyBatiser;
 /**
  * Servlet implementation class ManageIndex
  */
-@WebServlet("/ManageIndex")
+@WebServlet("/v1/manager_index")
 public class ManageIndex extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
