@@ -36,7 +36,6 @@ public class CutCommentServlet extends HttpServlet {
     @Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		 System.out.println("cut");
 		 response.setContentType("text/plain;charset=UTF-8");
 		 response.setCharacterEncoding("utf-8");// 注意設置為utf-8否則前端接收到的中文為亂碼
 		

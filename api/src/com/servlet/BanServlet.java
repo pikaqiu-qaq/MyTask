@@ -33,7 +33,6 @@ public class BanServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("ban_get");
 
 		//设置编码
 		response.setCharacterEncoding("utf-8");
@@ -69,9 +68,7 @@ public class BanServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//先省略验证管理员权限的部分
-		System.out.println("ban");
 		//设置编码
-		
 		response.setCharacterEncoding("utf-8");
 		request.setCharacterEncoding("utf-8");
 		String action = request.getParameter("action");

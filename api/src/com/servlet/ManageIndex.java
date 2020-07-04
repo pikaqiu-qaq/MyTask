@@ -43,7 +43,6 @@ public class ManageIndex extends HttpServlet {
 		List<User> users = myBatiser.selectAllUsers();
 		List<Comment_news> comments=myBatiser.selectAllComment_news();
 	    List<Comment_anime> comment_animes=myBatiser.selectAllComment_anime();
-		System.out.println("get");
 		Calendar c1 = Calendar.getInstance();
 		int month;
 		int day;

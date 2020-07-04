@@ -20,8 +20,8 @@
     <link rel="stylesheet" href="css/adminlte.min.css">
 </head>
 
-<body class="hold-transition sidebar-mini">
-    <div class="wrapper">
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand navbar-white navbar-light">
             <!-- Left navbar links -->
@@ -49,7 +49,7 @@
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
-            <a href="main.html" class="brand-link">
+            <a href="main.jsp" class="brand-link">
                 <img src="img/cartonhorse.jpg" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
                 <span class="brand-text font-weight-light">se驿站</span>
             </a>
@@ -74,11 +74,11 @@
                with font-awesome or any other icon font library -->
                         <li class="nav-item has-treeview menu-open">
             <a href="#" class="nav-link active">
-               <img src="img/red.png" style="width:32px;height:32px" class="img-circle"></img>
+              <img src="img/red.png" style="width:32px;height:32px" class="img-circle"></img>
                <p style="margin-left:5px"> 面板</p>
             </a>
             <ul class="nav nav-treeview">
-              <li class="nav-item">
+               <li class="nav-item">
                 <a href="main.jsp" class="nav-link active"> 
                 <img src="img/yellow.png" style="width:32px;height:32px" class="img-circle"></img>
                <p style="margin-left:5px"> 数据总览</p>
@@ -105,7 +105,6 @@
             </div>
             <!-- /.sidebar -->
         </aside>
-
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
@@ -113,11 +112,7 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>评论管理
-                            <button id="news" class="btn btn-default" style="color:green" onclick="goto_news()">新闻</button>
-                            <button id="anime" class="btn btn-default" style="color:green" onclick="goto_anime()">番剧</button>
-                            </h1>
-                            
+                            <h1>用户管理</h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
@@ -132,16 +127,73 @@
 
             <!-- Main content -->
             <section class="content">
-                <div class="container-fluid" id="frame" style="width:100%;height:6650px;">
-                    <iframe src="news_table.jsp" style="width: 100%;height: 100%;" frameborder="0"></iframe>
-                   <!-- iframe -->
-                
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">se驿站</h3>
+                                </div>
+                                <!-- /.card-header -->
+                                <div class="card-body">
+                                    <table id="example1" class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>用户id</th>
+                                                <th>邮箱</th>
+                                                <th>用户名</th>
+                                                <th>性别</th>
+                                                <th>注册时间</th>
+                                                <th>账号状态</th>
+                                                <th>管理</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <%
+                                                com.mybatis.MyBatiser m = new com.mybatis.MyBatiser();
+                                                java.util.List<com.bean.User> users = m.selectAllUsers();
+                                                for(int i=0;i<users.size();i++){
+                                            %>
+                                            <tr>
+                                                <td><%=users.get(i).getUser_id()%></td>
+                                                <td><%=users.get(i).getEmail()%></td>
+                                                <td><%=users.get(i).getUser_name()%></td>
+                                                <td><%=users.get(i).getGender()==0?"未知":(users.get(i).getGender()==1?"男":"女")%></td>
+                                                <td><%=users.get(i).getRegister_time()%></td>
+                                                <%
+                                                    String color;
+                                                    if(users.get(i).getBan()==0)color="Green";
+                                                    else color="red";
+                                                %>
+                                                <td style="color:<%=color%>" id="ban<%=i%>"><%=users.get(i).getBan()==0?"正常":"冻结"%></td>
+                                                <td><button type="button" id="bt<%=i %>" onclick="go('<%=users.get(i).getUser_id()%>','<%=i%>')" class="btn btn-default"><%=(users.get(i).getBan()==0)?"冻结":"解冻"%></button></td>
+                                            </tr>
+                                            <%
+                                                }
+                                            %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+                            <!-- /.card -->
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
                 </div>
                 <!-- /.container-fluid -->
             </section>
             <!-- /.content -->
         </div>
-
+        <!-- /.content-wrapper -->
+        <footer class="main-footer">
+            <div class="float-right d-none d-sm-block">
+                <b>Version</b> 3.1.0-pre
+            </div>
+            <strong>Copyright &copy; 2014-2020 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
+        </footer>
 
         <!-- Control Sidebar -->
         <aside class="control-sidebar control-sidebar-dark">
@@ -164,7 +216,6 @@
     <script src="js/adminlte.min.js"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="js/demo.js"></script>
-    <!-- page script -->
     <script>
         $(function() {
             $("#example1").DataTable({
@@ -181,15 +232,35 @@
                 "responsive": true,
             });
         });
-        function goto_news() {
-        	document.getElementById("frame").innerHTML = "<iframe src='news_table.jsp'"+"style='width: 100%;height: 100%;'"+"></iframe>";
-        	document.getElementById("frame").frameborder="0";
-        }
-        function goto_anime() {
-        	document.getElementById("frame").innerHTML = "<iframe src='anime_table.jsp'"+"style='width: 100%;height: 100%;'"+"></iframe>";
-        	document.getElementById("frame").frameborder="0";
-        }
+        
+        function go(user_id,index){
+    		$.post("http://"+window.location.hostname+":"+window.location.port+"/api/v1/ban",{
+    			user_id:user_id,
+    			action:document.getElementById("bt"+index).innerHTML,
+    		},
+    		function(data,status){
+    			var status = JSON.parse(data);
+    			if(status=="203"){
+    				var td=document.getElementById("ban"+index);
+    				td.innerHTML="冻结";
+    				td.style.color="red";
+    				var bt=document.getElementById("bt"+index);
+    				bt.innerHTML="解冻";
+    				alert("冻结成功");
+    			}
+    			if(status=="204"){
+    				var td=document.getElementById("ban"+index);
+    				td.innerHTML="正常";
+    				td.style.color="green";
+    				var bt=document.getElementById("bt"+index);
+    				bt.innerHTML="冻结";
+    				alert("解冻成功");
+    			}
+    			if(status=="500")alert("账户不存在");
+    			if(status=="402")alert("参数格式错误");
+    			if(status=="403")alert("参数缺失");
+    		});
+        } 
     </script>
 </body>
-
 </html>

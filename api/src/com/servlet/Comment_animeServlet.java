@@ -191,6 +191,15 @@ public class Comment_animeServlet extends HttpServlet {
 		else {
 			status=200;
 		}
+		
+		
+		
+		for(int i=0;i<animecomments.size();i++) {
+			User user=myBatiser.selectUserByUser_id(animecomments.get(i).getUser_id());
+			animecomments.get(i).setUser_name(user.getUser_name());
+			animecomments.get(i).setAvatar_url(user.getAvatar_url());
+			animecomments.get(i).setGender((user.getGender()==0)?"未知":(user.getGender()==1?"男":"女"));
+		}
 
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("status", status);

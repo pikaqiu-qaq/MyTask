@@ -1,11 +1,38 @@
 package com.bean;
  
 public class Comment_anime {
-	private long id;//评论的id
-	private String news_id;//所属资讯的id
-	private String user_id;//用户账号
-	private long create_time;//评论发表时间
-	private String content;//评论内容
+	private long id;//璇勮鐨刬d
+	private String anime_id;//鎵�灞炶祫璁殑id
+	private String user_id;//鐢ㄦ埛璐﹀彿
+	private long create_time;//璇勮鍙戣〃鏃堕棿
+	private String content;//璇勮鍐呭
+	private String user_name;//用户名
+	private String avatar_url;//头像
+	private String gender;//性别
+	
+	public String getUser_name() {
+		return user_name;
+	}
+
+	public void setUser_name(String user_name) {
+		this.user_name = user_name;
+	}
+
+	public String getAvatar_url() {
+		return avatar_url;
+	}
+
+	public void setAvatar_url(String avatar_url) {
+		this.avatar_url = avatar_url;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
 	
 	public Comment_anime() {
 	}
@@ -19,11 +46,11 @@ public class Comment_anime {
 	}
 
 	public String getAnime_id() {
-		return news_id;
+		return anime_id;
 	}
 
 	public void setAnime_id(String news_id) {
-		this.news_id = news_id;
+		this.anime_id = news_id;
 	}
 
 	public String getUser_id() {

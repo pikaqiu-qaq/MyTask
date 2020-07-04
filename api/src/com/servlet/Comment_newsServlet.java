@@ -191,6 +191,13 @@ public class Comment_newsServlet extends HttpServlet {
 		} else {
 			status = 200;
 		}
+		
+		for(int i=0;i<comments.size();i++) {
+			User user=myBatiser.selectUserByUser_id(comments.get(i).getUser_id());
+			comments.get(i).setUser_name(user.getUser_name());
+			comments.get(i).setAvatar_url(user.getAvatar_url());
+			comments.get(i).setGender((user.getGender()==0)?"Î´Öª":(user.getGender()==1?"ÄÐ":"Å®"));
+		}
 
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("status", status);

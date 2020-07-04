@@ -132,11 +132,9 @@ public class ProfileServlet extends HttpServlet {
 								String avatar_url = "http://"+request.getHeader("Host")+"/avatar/"+user.getUser_id()+".jpg";
 								System.out.println(request.getServerPort());
 								user.setAvatar_url(avatar_url);
-								System.out.println("保存成功");
 							}
 							else {
 								status = 408;//base64码格式错误
-								System.out.println("保存失败");
 							}
 							
 						}

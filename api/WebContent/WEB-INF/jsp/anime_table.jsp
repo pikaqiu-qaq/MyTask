@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="css/adminlte.min.css">
 </head>
 <body>
+
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -31,9 +32,8 @@
                     ×
                 </button>
 			</div>
-			<!--登陆框中间部分(from表单)-->
 			<div class="modal-body">
-			<textarea id="content" placeholder="此处显示评论内容" readonly="readonly" style="border:0;height:300px;width:450px"></textarea>
+			<textarea id="content" placeholder="此处显示评论内容" readonly="readonly" style="height:300px;width:470px"></textarea>
 		</div>	
 		</div>	
 	</div>
@@ -43,7 +43,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">新闻评论列表</h3>
+                        <h3 class="card-title">番剧评论列表</h3>
                      </div>
                      <div class="card-body">
                         <table id="example1" class="table table-bordered table-hover">
@@ -60,16 +60,16 @@
                              <tbody>
                                  <%
                                      com.mybatis.MyBatiser m = new com.mybatis.MyBatiser();
-                                     java.util.List<com.bean.Comment_news> comment_news_all = m.selectAllComment_news();
-                                     for(int i=0;i<comment_news_all.size();i++){
+                                     java.util.List<com.bean.Comment_anime> comment_anime_all = m.selectAllComment_anime();
+                                     for(int i=0;i<comment_anime_all.size();i++){
                                  %>
                                  <tr id="tr<%=i%>">
-                                     <td><%=comment_news_all.get(i).getId()%></td>
-                                     <td><%=comment_news_all.get(i).getNews_id()%></td>
-                                     <td><%=comment_news_all.get(i).getUser_id()%></td>
-                                     <td><%=new java.util.Date(comment_news_all.get(i).getCreate_time())%></td>
-                                     <td><button id="look<%=i%>" onclick="read('<%=comment_news_all.get(i).getContent()%>')" class="btn btn-default" style="color:green">查看</button></td>
-                                     <td><button id="delete<%=i%>" onclick="remove('<%=i%>','<%=comment_news_all.get(i).getId()%>')" class="btn btn-default" style="color:red">删除</button></td>
+                                     <td><%=comment_anime_all.get(i).getId()%></td>
+                                     <td><%=comment_anime_all.get(i).getAnime_id()%></td>
+                                     <td><%=comment_anime_all.get(i).getUser_id()%></td>
+                                     <td><%=new java.util.Date(comment_anime_all.get(i).getCreate_time())%></td>
+                                     <td><button id="look<%=i%>" onclick="read('<%=comment_anime_all.get(i).getContent()%>')" class="btn btn-default" style="color:green">查看</button></td>
+                                     <td><button id="delete<%=i%>" onclick="remove('<%=i%>','<%=comment_anime_all.get(i).getId()%>')" class="btn btn-default" style="color:red">删除</button></td>
                                  </tr>
                                  <%
                                      } 
@@ -124,7 +124,7 @@
         
         function remove(index,id){
         	$.post("http://"+window.location.hostname+":"+window.location.port+"/api/v1/cut",{
-    			comment_type:"news",
+    			comment_type:"anime",
     			id:id,
     		},
     		function(data,status){
@@ -137,6 +137,8 @@
     			else if(status=="500"){
     				alert("服务器出错");
     			}
+    			
+    			
     		});
         }
         function read(content){
